@@ -7,24 +7,34 @@ import SectionHeader from '@/components/ui/SectionHeader';
 
 const services = [
     {
-        title: "Brand Identity",
-        description: "Crafting unique visual identities that tell your story and resonate with your target audience through color, typography, and strategy.",
-        src: "/services/brand.png",
-    },
-    {
-        title: "Web Design",
-        description: "Designing high-performance, conversion-focused websites that look stunning on every device and provide a seamless user experience.",
+        title: "Web Development",
+        description: "Building high-performance, responsive websites using modern frameworks like Next.js and React, ensuring speed, security, and scalability.",
         src: "/services/web.png",
     },
     {
-        title: "UI/UX Strategy",
-        description: "Deep-diving into user behavior to create intuitive interfaces that are not only beautiful but also accessible and highly functional.",
-        src: "/services/ux.png",
+        title: "App Development",
+        description: "Creating intuitive, cross-platform mobile applications that provide native experiences and leverage the latest mobile technologies.",
+        src: "/services/app.png",
     },
     {
-        title: "Creative Direction",
-        description: "Strategic guidance to ensure your brand's visual communication is consistent and powerful across all digital and physical touchpoints.",
-        src: "/services/brand.png",
+        title: "AI Applications",
+        description: "Integrating cutting-edge AI and machine learning solutions into your workflows to automate processes and provide intelligent insights.",
+        src: "/services/app.png",
+    },
+    {
+        title: "Maintenance",
+        description: "Comprehensive support and updates for your digital products, including performance optimization, bug fixes, and feature enhancements.",
+        src: "/services/web.png",
+    },
+    {
+        title: "MVP Prototype",
+        description: "Rapidly building functional prototypes and MVPs to validate your ideas and test market viability with minimal investment.",
+        src: "/services/app.png",
+    },
+    {
+        title: "Project Management",
+        description: "Streamlined project delivery through agile methodologies, ensuring clear communication, milestone tracking, and on-time completion.",
+        src: "/services/web.png",
     },
 ];
 
@@ -46,6 +56,7 @@ const StickyCard = ({
     targetScale: number;
 }) => {
     const scale = useTransform(progress, range, [1, targetScale]);
+    const isEven = i % 2 === 0;
 
     return (
         <div className="sticky top-[15vh] flex items-center justify-center w-full mb-12">
@@ -54,10 +65,10 @@ const StickyCard = ({
                     scale,
                     top: `calc(${i * 25}px)`,
                 }}
-                className="relative flex flex-col md:flex-row h-[500px] md:h-[450px] w-full bg-secondary rounded-[40px] border border-white/5 overflow-hidden origin-top"
+                className="relative flex flex-col md:grid md:grid-cols-2 h-[500px] md:h-[500px] w-full bg-secondary rounded-[40px]  overflow-hidden origin-top"
             >
                 {/* Content Side */}
-                <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+                <div className={`w-full p-10 md:p-16 flex flex-col justify-center ${!isEven ? 'md:order-2' : ''}`}>
                     <span className="text-white/40 font-mono text-sm mb-6">[ 0{i + 1} ]</span>
                     <h3 className="text-4xl md:text-5xl font-custom-2 text-white mb-6 leading-tight">
                         {title}
@@ -68,13 +79,13 @@ const StickyCard = ({
                 </div>
 
                 {/* Image Side */}
-                <div className="hidden md:flex w-1/2 relative bg-primary/30 items-center justify-center p-12 overflow-hidden">
+                <div className={`hidden md:flex relative bg-primary/30 items-center justify-center overflow-hidden ${!isEven ? 'md:order-1' : ''}`}>
                     <div className="relative w-full h-full transform group-hover:scale-110 transition-transform duration-700">
                         <Image
                             src={src}
                             alt={title}
                             fill
-                            className="object-contain p-8"
+                            className="object-cover"
                         />
                     </div>
                     {/* Gradient overlay */}
@@ -87,7 +98,7 @@ const StickyCard = ({
                         src={src}
                         alt={title}
                         fill
-                        className="object-contain p-12"
+                        className="object-cover"
                     />
                 </div>
             </motion.div>
