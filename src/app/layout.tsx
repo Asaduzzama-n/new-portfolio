@@ -37,8 +37,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${customFont.variable} ${customFont2.variable}`}>
-      <body className="bg-black text-white antialiased font-sans">
+      <body className="text-white antialiased font-sans">
         {children}
+        {/* Bottom Blur Effect */}
+        {/* <div className="fixed bottom-0 left-0 w-full h-32 pointer-events-none z-[100] backdrop-blur-xl [mask-image:linear-gradient(to_top,black,transparent)]" /> */}
       </body>
     </html>
   );

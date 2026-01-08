@@ -2,10 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { fadeUp } from '@/lib/animations';
 
 const footerLinks = [
-    { name: 'Home', href: '#home' },
+    { name: 'Home', href: '#hero' },
     { name: 'Projects', href: '#projects' },
     { name: 'About', href: '#about' },
     { name: 'Services', href: '#services' },
@@ -14,86 +13,87 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-    { name: 'Twitter', href: 'https://twitter.com' },
-    { name: 'LinkedIn', href: 'https://linkedin.com' },
+    { name: 'Instagram', href: 'https://instagram.com' },
     { name: 'Dribbble', href: 'https://dribbble.com' },
-    { name: 'GitHub', href: 'https://github.com' },
+    { name: 'Behance', href: 'https://behance.com' },
+    { name: 'LinkedIn', href: 'https://linkedin.com' },
+    { name: 'X', href: 'https://twitter.com' },
 ];
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <motion.footer
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="py-16 px-4 border-t border-[#1a1a1a]"
-        >
-            <div className="max-w-7xl mx-auto">
+        <footer className="fixed bottom-0 left-0 w-full h-[500px] md:h-[600px] bg-white text-black z-0 flex flex-col pt-20 px-4 md:px-12 overflow-hidden">
+            <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col">
+                {/* Work With Me Button */}
+                <div className="mb-16">
+                    <Link
+                        href="#contact"
+                        className="inline-flex items-center gap-4 text-sm font-medium tracking-[0.2em] group border-b border-black pb-1 hover:gap-6 transition-all"
+                    >
+                        WORK WITH ME
+                        <span className="text-xl">↗</span>
+                    </Link>
+                </div>
+
                 <div className="grid md:grid-cols-3 gap-12 mb-12">
-                    {/* Brand */}
-                    <div>
-                        <Link href="/" className="inline-flex items-center gap-2 mb-4">
-                            <span className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center">
-                                <span className="text-lg font-serif">✦</span>
-                            </span>
-                            <span className="font-serif text-xl">Asaduzzaman</span>
-                        </Link>
-                        <p className="text-white/50 text-sm">
-                            Clean, modern portfolios built to impress — and built to convert.
-                        </p>
+                    {/* Contact Info */}
+                    <div className="space-y-2">
+                        <a href="mailto:hey@asad.com" className="block text-lg hover:opacity-70 transition-opacity">
+                            hey@asad.com
+                        </a>
+                        <p className="text-lg">+(12) 3456 789</p>
                     </div>
 
                     {/* Navigation */}
-                    <div>
-                        <h4 className="font-medium mb-4">Navigation</h4>
-                        <ul className="space-y-2">
-                            {footerLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-white/50 text-sm hover:text-white transition-colors"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="flex flex-col gap-2">
+                        {footerLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className="text-lg hover:opacity-70 transition-opacity w-fit"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
                     </div>
 
-                    {/* Social */}
-                    <div>
-                        <h4 className="font-medium mb-4">Connect</h4>
-                        <ul className="space-y-2">
-                            {socialLinks.map((link) => (
-                                <li key={link.name}>
-                                    <a
-                                        href={link.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-white/50 text-sm hover:text-white transition-colors inline-flex items-center gap-1"
-                                    >
-                                        {link.name}
-                                        <span className="text-xs">↗</span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                    {/* Socials */}
+                    <div className="flex flex-col gap-2">
+                        {socialLinks.map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-lg hover:opacity-70 transition-opacity w-fit"
+                            >
+                                {link.name}
+                            </a>
+                        ))}
                     </div>
                 </div>
 
-                {/* Bottom */}
-                <div className="pt-8 border-t border-[#1a1a1a] flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-white/40 text-sm">
-                        © {currentYear} Asaduzzaman. All rights reserved.
-                    </p>
-                    <p className="text-white/40 text-sm">
-                        Built with ❤️ using Next.js
+                {/* Copyright */}
+                <div className="mt-auto mb-20 text-center">
+                    <p className="text-sm opacity-60">
+                        All rights reserved © {currentYear}. Portfolio made by Asaduzzaman
                     </p>
                 </div>
             </div>
-        </motion.footer>
+
+            {/* Large Background Text */}
+            <div className="absolute -bottom-[20%] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none">
+                <h1 className="text-[25vw] font-custom-2 leading-none opacity-[0.05] tracking-tighter">
+                    ASAD
+                </h1>
+                {/* Blur Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent h-full" />
+            </div>
+
+            {/* Bottom Blur positioned fixed to the bottom as requested */}
+            {/* <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent blur-xl pointer-events-none" /> */}
+        </footer>
     );
 }

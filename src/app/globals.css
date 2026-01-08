@@ -117,6 +117,11 @@ body {
   background-clip: text;
 }
 
+.mask-gradient-v {
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
 .bg-primary {
   background-color: #262626;
 }

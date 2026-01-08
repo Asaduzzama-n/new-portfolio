@@ -50,7 +50,7 @@ export default function FAQ() {
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className="border border-[#1a1a1a] rounded-2xl overflow-hidden bg-[#111111]"
+                            className="rounded-2xl overflow-hidden bg-primary"
                         >
                             <button
                                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
@@ -74,7 +74,7 @@ export default function FAQ() {
                                         transition={{ duration: 0.3 }}
                                         className="overflow-hidden"
                                     >
-                                        <p className="px-6 pb-5 text-white/60">{faq.answer}</p>
+                                        <p className="p-6 text-white/60">{faq.answer}</p>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
