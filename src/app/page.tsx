@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen">
       <Navigation />
-      <main className="relative z-10 bg-[#1C1C1C] mb-[500px] md:mb-[600px] rounded-b-4xl ">
+      <main className="relative z-10 bg-[#1C1C1C] mb-[500px] md:mb-[600px] rounded-b-4xl overflow-x-hidden">
         <Hero />
         <About />
         <Process />
