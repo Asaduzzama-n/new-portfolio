@@ -5,13 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Process', href: '#process' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Services', href: '#services' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/#home' },
+    { name: 'About', href: '/#about' },
+    { name: 'Process', href: '/#process' },
+    { name: 'Projects', href: '/#projects' },
+    { name: 'Services', href: '/#services' },
+    // { name: 'Blog', href: '/#blog' },
+    { name: 'Contact', href: '/#contact' },
 ];
 
 export default function Navigation() {
@@ -27,10 +27,12 @@ export default function Navigation() {
     }, []);
 
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        e.preventDefault();
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+        if (href.startsWith('#') && window.location.pathname === '/') {
+            e.preventDefault();
+            const element = document.querySelector(href);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
         setIsMobileMenuOpen(false);
     };

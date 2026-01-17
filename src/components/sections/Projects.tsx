@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { fadeUp, slideFromLeft, slideFromRight } from '@/lib/animations';
+import Link from 'next/link';
 import Image from 'next/image';
 
 const projects = [
@@ -66,14 +67,13 @@ export default function Projects() {
                                     <span className="text-white/80 font-custom text-4xl mb-8 tracking-tighter">[ {project.number} ]</span>
                                     <h3 className="text-4xl md:text-6xl font-custom mb-6 tracking-tight">{project.title}</h3>
                                     <p className="text-lg text-white/60 mb-10 leading-relaxed font-sans">{project.description}</p>
-                                    <motion.a
-                                        href={project.link}
+                                    <Link
+                                        href={`/projects/${project.title.toLowerCase().replace(/\s+/g, '-')}`}
                                         className="inline-flex items-center gap-3 text-sm font-medium tracking-[0.2em] group-hover:gap-4 transition-all uppercase"
-                                        whileHover={{ x: 5 }}
                                     >
                                         PREVIEW
                                         <span className="text-lg">↗</span>
-                                    </motion.a>
+                                    </Link>
                                 </div>
 
                                 {/* Image Section */}
