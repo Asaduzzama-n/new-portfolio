@@ -174,25 +174,33 @@ export default function Process() {
     const activeHeight = layoutMode === 'mobile' ? MOBILE_HEIGHT : DESKTOP_HEIGHT;
     const activeWidth = layoutMode === 'mobile' ? MOBILE_WIDTH : DESKTOP_WIDTH;
 
-    // Sequential connections for mobile
+    // Map original connections to mobile-friendly ports with overlap prevention
     const mobileConnections = useMemo(() => {
-        const conns = [];
-        for (let i = 0; i < PROCESS_STEPS.length - 1; i++) {
-            conns.push({
-                from: PROCESS_STEPS[i].id,
-                fromPort: 'bottom',
-                to: PROCESS_STEPS[i + 1].id,
-                toPort: 'top'
-            });
-        }
-        return conns;
+        return CONNECTIONS.map(conn => {
+            const fromIdx = PROCESS_STEPS.findIndex(s => s.id === conn.from);
+            const toIdx = PROCESS_STEPS.findIndex(s => s.id === conn.to);
+            const dist = toIdx - fromIdx;
+
+            // Sequential - use vertical flow
+            if (dist === 1) {
+                return { ...conn, fromPort: 'bottom', toPort: 'top', dist: 1 };
+            }
+            if (dist === -1) {
+                return { ...conn, fromPort: 'top', toPort: 'bottom', dist: -1 };
+            }
+
+            // Jumps - use side ports (alternating left/right to reduce overlap)
+            const side = (fromIdx + toIdx) % 2 === 0 ? 'right' : 'left';
+            return { ...conn, fromPort: side, toPort: side, dist };
+        });
     }, []);
 
     const activeConnections = layoutMode === 'mobile' ? mobileConnections : CONNECTIONS;
 
     return (
-        // overflow-visible is key so lines don't get cut off
-        <section id="process" className="py-24 px-4 md:px-8 overflow-visible">
+        // relative z-20 ensures cards stay above adjacent sections when dragged
+        // overflow-visible allows cards and lines to pop out of the section bounds
+        <section id="process" className="relative z-20 pt-24 pb-0 px-4 md:px-8 overflow-visible">
             <div className="max-w-7xl mx-auto mb-16">
                 <SectionHeader
                     label="Process"
@@ -201,14 +209,15 @@ export default function Process() {
                 />
             </div>
 
-            {/* Responsive Wrapper - Handles centering and scaled height */}
+            {/* Responsive Wrapper - mb-0 to remove gap */}
             <div
                 style={{
                     height: `${activeHeight * scale}px`,
                     width: '100%',
-                    maxWidth: `${activeWidth * scale}px`
+                    maxWidth: `${activeWidth * scale}px`,
+                    marginInline: 'auto'
                 }}
-                className="relative mb-20 mx-auto overflow-visible"
+                className="relative mb-0 overflow-visible"
             >
                 <div
                     ref={containerRef}
@@ -222,11 +231,10 @@ export default function Process() {
                 >
                     {/* SVG Layer for connections - overflow-visible prevents clipping */}
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
-                        {activeConnections.map((conn, idx) => {
+                        {activeConnections.map((conn: any, idx) => {
                             const start = getPortCoords(conn.from, conn.fromPort);
                             const end = getPortCoords(conn.to, conn.toPort);
 
-                            // Calculate control points for smooth Bezier curves
                             const dx = Math.abs(end.x - start.x);
                             const dy = Math.abs(end.y - start.y);
 
@@ -235,16 +243,18 @@ export default function Process() {
                             let cp2x = end.x;
                             let cp2y = end.y;
 
-                            // Tension factor
-                            const t = layoutMode === 'mobile' ? 0.3 : 0.5;
+                            // Adjust tension and curvature for mobile jumps
+                            const t = layoutMode === 'mobile' ? 0.4 : 0.5;
+                            const isJump = layoutMode === 'mobile' && Math.abs(conn.dist || 0) > 1;
+                            const jumpOffset = isJump ? Math.max(dy * 0.3, 120) * (Math.abs(conn.dist) * 0.3 + 0.7) : dx;
 
-                            if (conn.fromPort === 'right') cp1x += dx * t;
-                            if (conn.fromPort === 'left') cp1x -= dx * t;
+                            if (conn.fromPort === 'right') cp1x += (isJump ? jumpOffset : dx) * t;
+                            if (conn.fromPort === 'left') cp1x -= (isJump ? jumpOffset : dx) * t;
                             if (conn.fromPort === 'bottom') cp1y += dy * t;
                             if (conn.fromPort === 'top') cp1y -= dy * t;
 
-                            if (conn.toPort === 'right') cp2x += dx * t;
-                            if (conn.toPort === 'left') cp2x -= dx * t;
+                            if (conn.toPort === 'right') cp2x += (isJump ? jumpOffset : dx) * t;
+                            if (conn.toPort === 'left') cp2x -= (isJump ? jumpOffset : dx) * t;
                             if (conn.toPort === 'bottom') cp2y += dy * t;
                             if (conn.toPort === 'top') cp2y -= dy * t;
 
@@ -252,15 +262,12 @@ export default function Process() {
 
                             return (
                                 <g key={`${conn.from}-${conn.to}-${idx}`}>
-                                    {/* --------------------------------------------------------- */}
-                                    {/* CUSTOMIZATION TIP: Change stroke and strokeWidth for style */}
-                                    {/* --------------------------------------------------------- */}
                                     <path
                                         d={d}
                                         fill="none"
                                         stroke="#FFFFFF"
-                                        strokeWidth="1"
-                                        style={{ opacity: 0.15 }} // Subtle lines on re-render
+                                        strokeWidth="1.5"
+                                        style={{ opacity: layoutMode === 'mobile' ? 0.08 : 0.15 }} // Subtle lines on mobile
                                     />
                                 </g>
                             );
@@ -280,8 +287,7 @@ export default function Process() {
                                 width: cardWidth,
                                 height: cardHeight,
                             }}
-                            className={`absolute z-10 p-6 rounded-3xl  flex flex-col justify-between cursor-grab active:cursor-grabbing select-none border border-white/5 ${step.color === 'white' ? 'bg-[#ffffff] text-[#0A0A0A]' : 'bg-[#262727] text-white'
-                                }`}
+                            className={`absolute z-10 p-6 rounded-3xl flex flex-col justify-between cursor-grab active:cursor-grabbing select-none border border-white/5 ${step.color === 'white' ? 'bg-[#ffffff] text-[#0A0A0A]' : 'bg-[#262727] text-white'}`}
                         >
                             <div>
                                 <div className="flex justify-between items-start mb-4">
@@ -293,7 +299,7 @@ export default function Process() {
                                 </div>
                                 <ul className="space-y-3">
                                     {step.items.map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-sm  tracking-tight">
+                                        <li key={i} className="flex items-center gap-3 text-sm tracking-tight">
                                             <span className={step.color === 'white' ? 'text-[#262727]' : 'text-[#ffffff]'}>•</span>
                                             {item}
                                         </li>
@@ -301,7 +307,6 @@ export default function Process() {
                                 </ul>
                             </div>
 
-                            {/* Connection Ports (Visual dots) */}
                             <div className="absolute top-1/2 -left-1.25 w-2.5 border border-[#1C1C1C] h-2.5 bg-white rounded-full -translate-y-1/2" />
                             <div className="absolute top-1/2 -right-1.25 w-2.5 border border-[#1C1C1C] h-2.5 bg-white rounded-full -translate-y-1/2" />
                             <div className="absolute -top-1.25 left-1/2 w-2.5 border border-[#1C1C1C] h-2.5 bg-white rounded-full -translate-x-1/2" />
