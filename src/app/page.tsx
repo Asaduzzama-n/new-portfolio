@@ -11,6 +11,7 @@ const FAQ = dynamic(() => import('@/components/sections/FAQ'));
 const Blog = dynamic(() => import('@/components/sections/Blog'));
 const Contact = dynamic(() => import('@/components/sections/Contact'));
 const Footer = dynamic(() => import('@/components/sections/Footer'));
+const Process = dynamic(() => import('@/components/sections/Process'));
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <main className="relative z-10 bg-[#1C1C1C] mb-[500px] md:mb-[600px] rounded-b-4xl ">
         <Hero />
         <About />
+        <Process />
         <Projects />
         <Services />
         <Testimonials />
