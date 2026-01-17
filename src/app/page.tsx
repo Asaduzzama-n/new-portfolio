@@ -19,9 +19,11 @@ export default function Home() {
       <Navigation />
       <main className="relative z-10 bg-[#1C1C1C] mb-[500px] md:mb-[600px] rounded-b-4xl">
         <Hero />
-        <About />
-        <Process />
-        <Projects />
+        <div className="overflow-x-clip">
+          <About />
+          <Process />
+          <Projects />
+        </div>
         <Services />
         <Testimonials />
         <FAQ />
