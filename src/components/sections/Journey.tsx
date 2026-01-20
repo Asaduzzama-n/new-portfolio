@@ -18,30 +18,44 @@ export default function Journey() {
         let mm = gsap.matchMedia();
 
         mm.add("(min-width: 768px)", () => {
-            const tl = gsap.timeline({
+            // Initial states
+            gsap.set('.milestone-box', { opacity: 0, y: 30 });
+            gsap.set('.path-svg', { opacity: 0 });
+            gsap.set('.arrow-marker', { opacity: 0 });
+
+            // Reveal animation - starts when section reaches 30% from top
+            const revealTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 30%',
+                    end: 'top top',
+                    scrub: 1,
+                }
+            });
+
+            // Start revealing the first milestone before pinning
+            revealTl.to('.milestone-today', { opacity: 1, y: 0, duration: 2 });
+
+            // Pin animation - starts when container reaches top
+            const pinTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: pinRef.current,
                     start: 'top top',
-                    end: '+=300%',
+                    end: '+=400%',
                     pin: true,
                     scrub: 1,
                     anticipatePin: 1
                 },
             });
 
-            // Initial states
-            gsap.set('.milestone-box', { opacity: 0, y: 30 });
-            gsap.set('.path-svg', { opacity: 0 });
-            gsap.set('.arrow-marker', { opacity: 0 });
-
-            tl.to('.milestone-today', { opacity: 1, y: 0, duration: 2 })
-                .to('.path-1', { opacity: 1, duration: 1 }, '-=1')
+            // Continue the animation during pinning
+            pinTl.to('.path-1', { opacity: 1, duration: 1 })
                 .fromTo(path1Ref.current, { strokeDashoffset: 1000, strokeDasharray: 1000 }, { strokeDashoffset: 0, duration: 4 })
-                .to('.arrow-1', { opacity: 1, duration: 0.5 }) // Arrow appears after path draws
+                .to('.arrow-1', { opacity: 1, duration: 0.5 })
                 .to('.milestone-yesterday', { opacity: 1, y: 0, duration: 2 }, '-=1')
                 .to('.path-2', { opacity: 1, duration: 1 }, '-=1')
                 .fromTo(path2Ref.current, { strokeDashoffset: 1000, strokeDasharray: 1000 }, { strokeDashoffset: 0, duration: 4 })
-                .to('.arrow-2', { opacity: 1, duration: 0.5 }) // Arrow appears after path draws
+                .to('.arrow-2', { opacity: 1, duration: 0.5 })
                 .to('.milestone-tomorrow', { opacity: 1, y: 0, duration: 2 }, '-=1');
         });
 
