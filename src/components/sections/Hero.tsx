@@ -42,7 +42,7 @@ export default function Hero() {
                     <div className="space-y-2">
                         <p className="text-lg lg:text-xl font-medium">Asaduzzaman</p>
                         <p className="text-sm lg:text-base text-white/60 max-w-md">
-                            Designer, Entrepreneur & Tech Visionary
+                            Software Engineer & Full-Stack Developer
                         </p>
                         <div className="flex gap-2 text-xs text-white/40 pt-2">
                             <span className="border-b border-white/20 pb-0.5">English</span>
@@ -54,10 +54,11 @@ export default function Hero() {
                     {/* Social Links */}
                     <div className="flex flex-wrap gap-4 text-sm">
                         <Link
-                            href="#"
+                            href="https://github.com/Asaduzzama-n"
+                            target="_blank"
                             className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
                         >
-                            Film Maker*
+                            GitHub
                         </Link>
                         <Link
                             href="#"
@@ -69,10 +70,10 @@ export default function Hero() {
                             href="#"
                             className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
                         >
-                            Instagram
+                            Twitter
                         </Link>
                         <Link
-                            href="#"
+                            href="mailto:hello@asaduzzaman.com"
                             className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
                         >
                             hello@asaduzzaman.com
