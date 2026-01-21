@@ -65,17 +65,13 @@ export default function Navigation() {
                                     key={link.name}
                                     href={link.href}
                                     onClick={(e) => scrollToSection(e, link.href)}
-                                    className="px-4 py-2 text-sm font-medium text-white/80 hover:text-white rounded-full bg-secondary "
+                                    className="px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-full bg-secondary"
                                     onMouseEnter={() => setHoveredLink(link.name)}
                                     onMouseLeave={() => setHoveredLink(null)}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
                                 >
-                                    <TextRoll
-                                        text={link.name.toUpperCase()}
-                                        variant="char-roll"
-                                        isHovered={hoveredLink === link.name}
-                                    />
+                                    <TextRoll isHovered={hoveredLink === link.name}>
+                                        {link.name.toUpperCase()}
+                                    </TextRoll>
                                 </motion.a>
                             ))}
                         </div>
@@ -115,10 +111,9 @@ export default function Navigation() {
                                     onMouseEnter={() => setHoveredLink(link.name)}
                                     onMouseLeave={() => setHoveredLink(null)}
                                 >
-                                    <TextRoll
-                                        text={link.name.toUpperCase()}
-                                        isHovered={hoveredLink === link.name}
-                                    />
+                                    <TextRoll isHovered={hoveredLink === link.name}>
+                                        {link.name.toUpperCase()}
+                                    </TextRoll>
                                 </a>
                             ))}
                         </div>

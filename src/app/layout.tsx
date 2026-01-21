@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import "./globals.css";
 import Footer from "@/components/sections/Footer";
 import Navigation from "@/components/ui/Navigation";
+import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 
 const customFont = localFont({
   src: '../../public/fonts/custom-font.woff2',
@@ -40,9 +41,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${customFont.variable} ${customFont2.variable}`}>
       <body className="text-white antialiased font-sans">
-        <Navigation />
-        {children}
-        <Footer />
+        <SmoothScrollProvider>
+          <Navigation />
+          {children}
+          <Footer />
+        </SmoothScrollProvider>
 
         {/* Bottom Blur Effect */}
         {/* <div className="fixed bottom-0 left-0 w-full h-32 pointer-events-none z-[100] backdrop-blur-xl [mask-image:linear-gradient(to_bottom,black,transparent)]" /> */}

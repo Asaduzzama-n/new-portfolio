@@ -46,7 +46,7 @@ export default function Technologies() {
             scrollTrigger: {
                 trigger: sectionRef.current,
                 start: 'top 80%',
-                end: 'bottom 20%',
+                end: 'bottom 40%',
                 scrub: 1,
             }
         });

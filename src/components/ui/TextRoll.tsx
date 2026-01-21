@@ -1,130 +1,89 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import React from "react";
+import { cn } from "@/lib/utils";
+
+const STAGGER = 0.035;
 
 interface TextRollProps {
-    text: string;
+    children: string;
     className?: string;
+    center?: boolean;
     isHovered?: boolean;
-    variant?: 'roll' | 'char' | 'char-roll';
 }
 
-export default function TextRoll({ text, className = '', isHovered, variant = 'roll' }: TextRollProps) {
-    const [internalHover, setInternalHover] = useState(false);
+const TextRoll: React.FC<TextRollProps> = ({ children, className, center = false, isHovered = false }) => {
+    // Safety check for undefined children
+    if (!children) return null;
 
-    // Use external hover state if provided, otherwise use internal state
-    const shouldAnimate = isHovered !== undefined ? isHovered : internalHover;
+    return (
+        <motion.span
+            initial="initial"
+            animate={isHovered ? "hovered" : "initial"}
+            className={cn("relative block overflow-hidden", className)}
+            style={{
+                lineHeight: 0.75,
+            }}
+        >
+            <div>
+                {children.split("").map((l, i) => {
+                    const delay = center
+                        ? STAGGER * Math.abs(i - (children.length - 1) / 2)
+                        : STAGGER * i;
 
-    // Character-based roll animation variant
-    if (variant === 'char-roll') {
-        const characters = text.split('');
-
-        return (
-            <span
-                className={`inline-flex ${className}`}
-                onMouseEnter={() => isHovered === undefined && setInternalHover(true)}
-                onMouseLeave={() => isHovered === undefined && setInternalHover(false)}
-            >
-                {characters.map((char, index) => (
-                    <span
-                        key={`${char}-${index}`}
-                        className="relative overflow-hidden inline-flex flex-col h-[1.2em] leading-[1.2em]"
-                        style={{ display: char === ' ' ? 'inline' : 'inline-flex' }}
-                    >
+                    return (
                         <motion.span
-                            animate={{
-                                y: shouldAnimate ? '-1.2em' : '0',
+                            variants={{
+                                initial: {
+                                    y: 0,
+                                },
+                                hovered: {
+                                    y: "-100%",
+                                },
                             }}
                             transition={{
-                                duration: 0.3,
-                                ease: [0.33, 1, 0.68, 1],
-                                delay: index * 0.02 // Stagger delay for each character
+                                ease: "easeInOut",
+                                delay,
                             }}
-                            className="flex flex-col"
+                            className="inline-block"
+                            key={i}
                         >
-                            <span className="h-[1.2em]">{char === ' ' ? '\u00A0' : char}</span>
-                            <span className="h-[1.2em]">{char === ' ' ? '\u00A0' : char}</span>
+                            {l}
                         </motion.span>
-                    </span>
-                ))}
-            </span>
-        );
-    }
+                    );
+                })}
+            </div>
+            <div className="absolute inset-0">
+                {children.split("").map((l, i) => {
+                    const delay = center
+                        ? STAGGER * Math.abs(i - (children.length - 1) / 2)
+                        : STAGGER * i;
 
-    // Character animation variant
-    if (variant === 'char') {
-        const characters = text.split('');
-
-        const container = {
-            hidden: { opacity: 0 },
-            visible: (i = 1) => ({
-                opacity: 1,
-                transition: { staggerChildren: 0.03, delayChildren: 0 },
-            }),
-        };
-
-        const child = {
-            visible: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                    type: "spring" as const,
-                    damping: 12,
-                    stiffness: 200,
-                },
-            },
-            hidden: {
-                opacity: 0,
-                y: 20,
-                transition: {
-                    type: "spring" as const,
-                    damping: 12,
-                    stiffness: 200,
-                },
-            },
-        };
-
-        return (
-            <motion.span
-                className={`inline-block ${className}`}
-                variants={container}
-                initial="hidden"
-                animate={shouldAnimate ? "visible" : "hidden"}
-                onMouseEnter={() => isHovered === undefined && setInternalHover(true)}
-                onMouseLeave={() => isHovered === undefined && setInternalHover(false)}
-            >
-                {characters.map((char, index) => (
-                    <motion.span
-                        key={`${char}-${index}`}
-                        variants={child}
-                        className="inline-block"
-                        style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
-                    >
-                        {char === ' ' ? '\u00A0' : char}
-                    </motion.span>
-                ))}
-            </motion.span>
-        );
-    }
-
-    // Roll animation variant (default)
-    return (
-        <span
-            className={`relative overflow-hidden inline-flex flex-col h-[1.2em] leading-[1.2em] ${className}`}
-            onMouseEnter={() => isHovered === undefined && setInternalHover(true)}
-            onMouseLeave={() => isHovered === undefined && setInternalHover(false)}
-        >
-            <motion.span
-                animate={{
-                    y: shouldAnimate ? '-1.2em' : '0',
-                }}
-                transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
-                className="flex flex-col"
-            >
-                <span className="h-[1.2em]">{text}</span>
-                <span className="h-[1.2em]">{text}</span>
-            </motion.span>
-        </span>
+                    return (
+                        <motion.span
+                            variants={{
+                                initial: {
+                                    y: "100%",
+                                },
+                                hovered: {
+                                    y: 0,
+                                },
+                            }}
+                            transition={{
+                                ease: "easeInOut",
+                                delay,
+                            }}
+                            className="inline-block"
+                            key={i}
+                        >
+                            {l}
+                        </motion.span>
+                    );
+                })}
+            </div>
+        </motion.span>
     );
-}
+};
+
+export default TextRoll;

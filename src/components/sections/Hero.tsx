@@ -1,64 +1,86 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { fadeUp, staggerContainer, staggerItem } from '@/lib/animations';
 import Image from 'next/image';
-
-const roles = ['DESIGNER', 'BRAND BUILDER', 'CREATIVE STRATEGIST'];
+import Link from 'next/link';
 
 export default function Hero() {
     return (
-        <section id="home" className="min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-16">
-            <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-                className="text-center max-w-5xl mx-auto"
-            >
-                {/* Roles */}
+        <section id="home" className="h-screen w-full flex items-stretch ">
+            <div className="w-full h-full grid lg:grid-cols-2">
+                {/* Left Side - Image */}
                 <motion.div
-                    variants={staggerItem}
-                    className="flex flex-wrap items-center justify-center gap-2 mb-8"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+                    className="relative h-full w-full"
                 >
-                    {roles.map((role, index) => (
-                        <span key={role} className="flex items-center gap-2 text-sm tracking-widest text-white/60">
-                            <span className="text-white">✦</span>
-                            {role}
-                            {index < roles.length && <span className="text-white">✦</span>}
-                        </span>
-                    ))}
+                    <Image
+                        src="/hero.png"
+                        alt="Asaduzzaman"
+                        fill
+                        className="object-cover grayscale"
+                        priority
+                    />
                 </motion.div>
 
-                {/* Main Headline */}
-                <motion.h1
-                    variants={fadeUp}
-                    className="text-4xl md:text-6xl lg:text-7xl  leading-tight font-custom2  mb-12"
-                >
-                    Clean, modern portfolios built to impress
-                    <br />
-                    <span className="">— and built to convert.</span>
-                </motion.h1>
-
-                {/* Profile Image */}
+                {/* Right Side - Text Content */}
                 <motion.div
-                    variants={fadeUp}
-                    className="relative inline-block"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1], delay: 0.2 }}
+                    className="flex flex-col justify-center px-8 lg:px-16 xl:px-24 space-y-8 lg:space-y-12 bg-background"
                 >
-                    <div className="h-[50vh] rounded-3xl overflow-hidden">
-                        <div className="w-full h-full flex items-center justify-center text-white/20">
-                            <Image
-                                src="/profile.png"
-                                alt="Profile"
-                                width={2000}
-                                height={2000}
-                                className="w-full h-full object-cover"
-                            />
+                    {/* Large Vertical Name */}
+                    <div className="relative">
+                        <h1 className="text-[15vw] lg:text-6xl xl:text-8xl font-bold leading-[0.85] tracking-tight font-custom2">
+                            ASADUZZAMAN
+                        </h1>
+                    </div>
+
+                    {/* Name and Tagline */}
+                    <div className="space-y-2">
+                        <p className="text-lg lg:text-xl font-medium">Asaduzzaman</p>
+                        <p className="text-sm lg:text-base text-white/60 max-w-md">
+                            Designer, Entrepreneur & Tech Visionary
+                        </p>
+                        <div className="flex gap-2 text-xs text-white/40 pt-2">
+                            <span className="border-b border-white/20 pb-0.5">English</span>
+                            <span>|</span>
+                            <span className="border-b border-white/20 pb-0.5">Bangla</span>
                         </div>
                     </div>
 
+                    {/* Social Links */}
+                    <div className="flex flex-wrap gap-4 text-sm">
+                        <Link
+                            href="#"
+                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
+                        >
+                            Film Maker*
+                        </Link>
+                        <Link
+                            href="#"
+                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
+                        >
+                            LinkedIn
+                        </Link>
+                        <Link
+                            href="#"
+                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
+                        >
+                            Instagram
+                        </Link>
+                        <Link
+                            href="#"
+                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
+                        >
+                            hello@asaduzzaman.com
+                        </Link>
 
+                    </div>
                 </motion.div>
-            </motion.div>
+            </div>
 
             {/* Scroll indicator */}
             <motion.div
