@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import TextRoll from './TextRoll';
 
 const navLinks = [
-    { name: 'Home', href: '/#home' },
     { name: 'About', href: '/#about' },
     { name: 'Process', href: '/#process' },
     { name: 'Projects', href: '/#projects' },
@@ -17,6 +17,7 @@ const navLinks = [
 export default function Navigation() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -49,25 +50,32 @@ export default function Navigation() {
                 <nav className="glass rounded-full px-2 py-1 bg-primary">
                     <div className="flex items-center gap-1">
                         {/* Logo */}
-                        <Link
-                            href="/"
-                            className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center mr-2 hover:bg-[#252525] transition-colors"
+                        <a
+                            href="/#home"
+                            onClick={(e) => scrollToSection(e, '/#home')}
+                            className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center mr-2 hover:bg-[#252525] transition-colors cursor-pointer"
                         >
                             <span className="text-lg font-serif">✦</span>
-                        </Link>
+                        </a>
 
                         {/* Desktop Nav */}
-                        <div className="hidden md:flex items-center gap-1">
+                        <div className="hidden md:flex items-center gap-1 ">
                             {navLinks.map((link) => (
                                 <motion.a
                                     key={link.name}
                                     href={link.href}
                                     onClick={(e) => scrollToSection(e, link.href)}
-                                    className="px-4 py-2 text-sm font-medium text-white/80 hover:text-white rounded-full  bg-secondary transition-all duration-200"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    className="px-4 py-2 text-sm font-medium text-white/80 hover:text-white rounded-full bg-secondary "
+                                    onMouseEnter={() => setHoveredLink(link.name)}
+                                    onMouseLeave={() => setHoveredLink(null)}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
-                                    {link.name.toUpperCase()}
+                                    <TextRoll
+                                        text={link.name.toUpperCase()}
+                                        variant="char-roll"
+                                        isHovered={hoveredLink === link.name}
+                                    />
                                 </motion.a>
                             ))}
                         </div>
@@ -104,8 +112,13 @@ export default function Navigation() {
                                     href={link.href}
                                     onClick={(e) => scrollToSection(e, link.href)}
                                     className="px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl hover:bg-[#1a1a1a] transition-all"
+                                    onMouseEnter={() => setHoveredLink(link.name)}
+                                    onMouseLeave={() => setHoveredLink(null)}
                                 >
-                                    {link.name.toUpperCase()}
+                                    <TextRoll
+                                        text={link.name.toUpperCase()}
+                                        isHovered={hoveredLink === link.name}
+                                    />
                                 </a>
                             ))}
                         </div>
