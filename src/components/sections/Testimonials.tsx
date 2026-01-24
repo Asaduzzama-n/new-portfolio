@@ -6,45 +6,45 @@ import SectionHeader from '@/components/ui/SectionHeader';
 
 const testimonials = [
     {
-        name: 'Michael Brown',
-        location: 'Creative Director, Studio X',
-        avatar: '/me.png',
-        quote: 'Asaduzzaman has an incredible eye for detail. The strategic approach to our brand redesign was exactly what we needed to move forward.',
+        name: 'Rezoan Ahmed',
+        location: 'Founder, Bahonxbd',
+        avatar: '/rezoan.png',
+        quote: "Asaduzzaman's strategic development significantly improved our system performance. Highly professional and technical.",
         rating: 5,
     },
     {
-        name: 'Wade Warren',
-        location: 'Founder, TechFlow',
-        avatar: '/profile.png',
-        quote: 'Working with him was a game-changer. Our conversion rates increased significantly after the new portfolio launch. Highly recommended!',
+        name: 'Ariful Islam',
+        location: 'Owner, Timber Log Solutions',
+        avatar: '/bangladeshi_user_2.png',
+        quote: "The timber log software transformed how we manage our inventory. The UI is intuitive and exactly what we needed.",
         rating: 5,
     },
     {
-        name: 'Sarah Jane',
-        location: 'Product Manager, Kiva',
-        avatar: '/me.png',
-        quote: 'The design process was smooth and communicative. Asaduzzaman really takes the time to understand the product goals.',
+        name: 'Julian Sterling',
+        location: 'CTO, Pixel Forge',
+        avatar: '/foreigner_1.png',
+        quote: "Working with Asaduzzaman was a great experience. He brings a unique perspective to complex backend workflows.",
         rating: 5,
     },
     {
-        name: 'Jane Cooper',
-        location: 'Brand Lead, Nova',
-        avatar: '/profile.png',
-        quote: 'Exceptional work on our visual identity. The brand feels more cohesive and premium than ever before.',
+        name: 'Elena Rodriguez',
+        location: 'Product Lead, TechNova',
+        avatar: '/foreigner_2.png',
+        quote: "Delivered high-quality software that exceeded our expectations. A true talent who understands infrastructure and business goals.",
         rating: 5,
     },
     {
-        name: 'Robert Fox',
-        location: 'CEO, Brightly',
-        avatar: '/me.png',
-        quote: 'A true professional who delivers high-quality design work on time. The new interface is clean and intuitive.',
+        name: 'Sarah Johnson',
+        location: 'Founder, CloudScale',
+        avatar: '/sarah_johnson.png',
+        quote: "The project management and support were flawless. Our team efficiency improved 40% in the first month.",
         rating: 5,
     },
     {
-        name: 'Guy Hawkins',
-        location: 'Creative Strategist',
-        avatar: '/profile.png',
-        quote: 'The level of creativity and technical skill brought to the table was impressive. A pleasure to collaborate with.',
+        name: 'David Chen',
+        location: 'Senior Developer, DevFlow',
+        avatar: '/david_chen.png',
+        quote: "Deep technical expertise and clear communication. The transition to the new architecture was handled perfectly.",
         rating: 5,
     },
 ];
@@ -62,8 +62,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
             &ldquo;{testimonial.quote}&rdquo;
         </p>
         <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10">
-                <Image src={testimonial.avatar} alt={testimonial.name} width={48} height={48} className="object-cover" />
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 shrink-0">
+                <Image src={testimonial.avatar} alt={testimonial.name} width={48} height={48} className="object-cover rounded-full aspect-square" />
             </div>
             <div>
                 <h4 className="font-custom text-lg text-white leading-tight">{testimonial.name}</h4>
@@ -75,16 +75,17 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
 
 const MarqueeColumn = ({ items, duration = 30, reverse = false }: { items: typeof testimonials, duration?: number, reverse?: boolean }) => {
     return (
-        <div className="relative h-[700px] overflow-hidden">
+        <div className="relative h-[720px] overflow-hidden">
             <motion.div
                 initial={{ y: reverse ? '-50%' : '0%' }}
                 animate={{ y: reverse ? '0%' : '-50%' }}
                 transition={{
                     duration: duration,
                     repeat: Infinity,
-                    ease: "linear"
+                    ease: "linear",
+                    repeatType: "loop"
                 }}
-                className="flex flex-col"
+                className="flex flex-col gap-6"
             >
                 {[...items, ...items].map((testimonial, index) => (
                     <TestimonialCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
@@ -109,9 +110,9 @@ export default function Testimonials() {
                     {/* Left Side Static Content */}
                     <div className="space-y-12">
                         <div className="space-y-6">
-                            <span className="inline-block px-4 py-1 rounded-full border border-white/10 text-white/60  font-medium">
+                            {/* <span className="inline-block px-4 py-1 rounded-full border border-white/10 text-white/60  font-medium">
                                 99+ Reviews
-                            </span>
+                            </span> */}
                             <h2 className="text-5xl md:text-7xl font-custom-2 tracking-tight text-white leading-[1.1]">
                                 Empowering teams through <br />
                                 <span className="text-white/40 italic">Thoughtful Design</span>
@@ -121,8 +122,8 @@ export default function Testimonials() {
                         <div className="flex items-center gap-6 py-8 rounded-[32px] bg-primary/30  w-fit">
                             <div className="flex -space-x-4">
                                 {[1, 2, 3, 4].map((i) => (
-                                    <div key={i} className="w-12 h-12 rounded-full border-2 border-[#1c1c1c] overflow-hidden">
-                                        <Image src={`/profile.png`} alt={`User ${i}`} width={48} height={48} />
+                                    <div key={i} className="w-12 h-12 rounded-full border-2 border-[#1c1c1c] overflow-hidden shrink-0">
+                                        <Image src={`/avatar_${i}.png`} alt={`User ${i}`} width={48} height={48} className="rounded-full object-cover aspect-square" />
                                     </div>
                                 ))}
                             </div>
@@ -139,12 +140,12 @@ export default function Testimonials() {
                     </div>
 
                     {/* Right Side Marquee */}
-                    <div className="relative grid md:grid-cols-2 gap-6 h-[700px] mask-gradient-v">
-                        <MarqueeColumn items={testimonials.slice(0, 3)} duration={35} />
-                        <MarqueeColumn items={testimonials.slice(3, 6)} duration={40} reverse />
+                    <div className="relative grid md:grid-cols-2 gap-6 h-[720px] mask-gradient-v">
+                        <MarqueeColumn items={testimonials.slice(0, 3)} duration={30} />
+                        <MarqueeColumn items={testimonials.slice(3, 6)} duration={35} reverse />
 
                         {/* Gradient Overlay for Fade Effect */}
-                        <div className="absolute inset-0 pointer-events-none  z-10" />
+                        <div className="absolute inset-0 pointer-events-none z-10" />
                     </div>
                 </div>
             </div>

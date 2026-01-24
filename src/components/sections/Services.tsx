@@ -7,34 +7,29 @@ import SectionHeader from '@/components/ui/SectionHeader';
 
 const services = [
     {
-        title: "Web Development",
-        description: "Building high-performance, responsive websites using modern frameworks like Next.js and React, ensuring speed, security, and scalability.",
-        src: "/services/web.png",
+        title: "Software Development",
+        description: "Building high-performance, robust applications using modern frameworks like Next.js, React, and Node.js, ensuring security and long-term stability.",
+        src: "/services/software_dev_v2.png",
     },
     {
-        title: "App Development",
-        description: "Creating intuitive, cross-platform mobile applications that provide native experiences and leverage the latest mobile technologies.",
-        src: "/services/app.png",
-    },
-    {
-        title: "AI Applications",
-        description: "Integrating cutting-edge AI and machine learning solutions into your workflows to automate processes and provide intelligent insights.",
-        src: "/services/app.png",
-    },
-    {
-        title: "Maintenance",
-        description: "Comprehensive support and updates for your digital products, including performance optimization, bug fixes, and feature enhancements.",
-        src: "/services/web.png",
-    },
-    {
-        title: "MVP Prototype",
-        description: "Rapidly building functional prototypes and MVPs to validate your ideas and test market viability with minimal investment.",
-        src: "/services/app.png",
+        title: "Maintenance Support",
+        description: "Providing ongoing technical support and maintenance to ensure your software remains secure, updated, and optimized for performance.",
+        src: "/services/maintenance_support_v2.png",
     },
     {
         title: "Project Management",
-        description: "Streamlined project delivery through agile methodologies, ensuring clear communication, milestone tracking, and on-time completion.",
-        src: "/services/web.png",
+        description: "Providing end-to-end project management using tools like Jira and Trello, ensuring milestones are met and communication is seamless.",
+        src: "/services/project_management_v2.png",
+    },
+    {
+        title: "API Development",
+        description: "Designing and implementing scalable RESTful and GraphQL APIs that power modern web and mobile applications.",
+        src: "/services/api_development_v2.png",
+    },
+    {
+        title: "Consultancy",
+        description: "Strategic technical consulting to help you choose the right stack, optimize your development workflow, and solve complex architectural challenges.",
+        src: "/services/consultancy_v2.png",
     },
 ];
 
@@ -119,7 +114,7 @@ export default function Services() {
                 <SectionHeader
                     label="Services"
                     title="What I Bring to the Table"
-                    subtitle="Strategic design solutions tailored to your unique brand needs."
+                    subtitle="Technical solutions tailored to your complex software and infrastructure needs."
                 />
 
                 <div className="mt-20 space-y-4 pb-[20vh]">

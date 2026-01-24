@@ -42,7 +42,7 @@ export default function Hero() {
                     <div className="space-y-2">
                         <p className="text-lg lg:text-xl font-medium">Asaduzzaman</p>
                         <p className="text-sm lg:text-base text-white/60 max-w-md">
-                            Software Engineer & Full-Stack Developer
+                            Software Engineer & Developer | Project Management & Maintenance Support
                         </p>
                         <div className="flex gap-2 text-xs text-white/40 pt-2">
                             <span className="border-b border-white/20 pb-0.5">English</span>

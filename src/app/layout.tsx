@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/sections/Footer";
 import Navigation from "@/components/ui/Navigation";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
+import ProgressiveBlur from "@/components/ui/ProgressiveBlur";
 
 const customFont = localFont({
   src: '../../public/fonts/custom-font.woff2',
@@ -16,20 +17,20 @@ const customFont2 = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Asaduzzaman | Designer & Creative Strategist",
-  description: "Clean, modern portfolios built to impress — and built to convert. A designer with 7+ years of experience crafting digital products and visual identities.",
-  keywords: ["portfolio", "designer", "brand identity", "web design", "UI/UX", "creative strategist"],
+  title: "Asaduzzaman | Software Engineer & Developer",
+  description: "Experienced Software Engineer and Full-Stack Developer specializing in building robust applications, project management, and long-term maintenance support.",
+  keywords: ["portfolio", "software engineer", "developer", "full-stack", "project management", "maintenance support", "devops"],
   authors: [{ name: "Asaduzzaman" }],
   openGraph: {
-    title: "Asaduzzaman | Designer & Creative Strategist",
-    description: "Clean, modern portfolios built to impress — and built to convert.",
+    title: "Asaduzzaman | Software Engineer & Developer",
+    description: "Experienced Software Engineer and Full-Stack Developer building robust digital products.",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Asaduzzaman | Designer & Creative Strategist",
-    description: "Clean, modern portfolios built to impress — and built to convert.",
+    title: "Asaduzzaman | Software Engineer & Developer",
+    description: "Experienced Software Engineer and Full-Stack Developer building robust digital products.",
   },
 };
 
@@ -45,6 +46,7 @@ export default function RootLayout({
           <Navigation />
           {children}
           <Footer />
+          <ProgressiveBlur />
         </SmoothScrollProvider>
 
         {/* Bottom Blur Effect */}

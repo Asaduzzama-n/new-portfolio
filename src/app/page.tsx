@@ -25,7 +25,7 @@ export default function Home() {
           <Process />
           <Journey />
           <Technologies />
-          <Projects />
+          {/* <Projects /> */}
         </div>
         <Services />
         <Testimonials />

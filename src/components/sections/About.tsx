@@ -18,8 +18,8 @@ export default function About() {
             <div className="max-w-7xl mx-auto">
                 <SectionHeader
                     label="About Me"
-                    title="Designer, Developer, Creator"
-                    subtitle="Crafting digital experiences that blend aesthetics with functionality."
+                    title="Developer, Engineer, Problem Solver"
+                    subtitle="Building robust digital solutions that combine performance with exceptional architecture."
                     centered={true}
                 />
 
@@ -34,16 +34,16 @@ export default function About() {
                     >
                         <div className="relative group">
                             <h3 className="text-4xl md:text-6xl font-custom-2 leading-tight">
-                                Hi, I&apos;m <span className="">Asaduzzaman</span>, a designer who thinks in code.
+                                Hi, I&apos;m <span className="">Asaduzzaman</span>, a Software Engineer who builds robust solutions.
                             </h3>
                         </div>
 
                         <div className="space-y-6 text-xl text-white/70 font-sans leading-relaxed max-w-2xl">
                             <p>
-                                With <span className="text-white font-medium">3+ years of experience</span>, I specialize in creating high-impact visual identities and seamless user interfaces. I bridge the gap between creative vision and technical implementation.
+                                With <span className="text-white font-medium">3+ years of experience</span>, I specialize in building full-stack applications and providing long-term maintenance support. I bridge the gap between complex requirements and technical execution through diligent project management.
                             </p>
                             <p>
-                                I don&apos;t just make things look pretty — I design for <span className="text-white font-medium">usability, scalability, and impact</span>. Whether it&apos;s a complex web application or a brand identity, I bring clarity and precision to every pixel.
+                                I don&apos;t just write code — I build for <span className="text-white font-medium">performance, reliability, and security</span>. Whether it&apos;s a complex web app, streamlined project management, or long-term system maintenance, I bring precision to every line.
                             </p>
                         </div>
 
@@ -109,7 +109,7 @@ export default function About() {
                             className="p-8 rounded-3xl border border-white/5 bg-primary/20 flex items-center justify-center text-center group cursor-default"
                         >
                             <p className="text-white font-custom-2 text-2xl leading-tight italic">
-                                &quot;Design is not just what it looks like, but <span className="text-white">how it works.</span>&quot;
+                                &quot;Great software is not just about code, but <span className="text-white">how it solves real-world problems.</span>&quot;
                             </p>
                         </motion.div>
                     </div>

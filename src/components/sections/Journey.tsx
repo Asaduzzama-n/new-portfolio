@@ -34,7 +34,7 @@ export default function Journey() {
             });
 
             // Start revealing the first milestone before pinning
-            revealTl.to('.milestone-today', { opacity: 1, y: 0, duration: 2 });
+            revealTl.to('.milestone-yesterday', { opacity: 1, y: 0, duration: 2 });
 
             // Pin animation - starts when container reaches top
             const pinTl = gsap.timeline({
@@ -52,7 +52,7 @@ export default function Journey() {
             pinTl.to('.path-1', { opacity: 1, duration: 1 })
                 .fromTo(path1Ref.current, { strokeDashoffset: 1000, strokeDasharray: 1000 }, { strokeDashoffset: 0, duration: 4 })
                 .to('.arrow-1', { opacity: 1, duration: 0.5 })
-                .to('.milestone-yesterday', { opacity: 1, y: 0, duration: 2 }, '-=1')
+                .to('.milestone-today', { opacity: 1, y: 0, duration: 2 }, '-=1')
                 .to('.path-2', { opacity: 1, duration: 1 }, '-=1')
                 .fromTo(path2Ref.current, { strokeDashoffset: 1000, strokeDasharray: 1000 }, { strokeDashoffset: 0, duration: 4 })
                 .to('.arrow-2', { opacity: 1, duration: 0.5 })
@@ -97,21 +97,21 @@ export default function Journey() {
                 {/* Max-Width Container */}
                 <div className="max-w-6xl mx-auto w-full h-full relative z-10">
 
-                    {/* TODAY (Top Left) */}
-                    <div className="milestone-box milestone-today md:absolute md:top-[15%] md:left-[5%] max-w-[280px] mb-8 md:mb-0 text-center md:text-left mx-auto md:mx-0">
+                    {/* YESTERDAY (Top Left) */}
+                    <div className="milestone-box milestone-yesterday md:absolute md:top-[15%] md:left-[5%] max-w-[280px] mb-8 md:mb-0 text-center md:text-left mx-auto md:mx-0">
                         <div className="relative inline-block mb-3">
-                            <h2 className="text-3xl md:text-4xl font-custom tracking-wide uppercase">Today</h2>
+                            <h2 className="text-3xl md:text-4xl font-custom tracking-wide uppercase">Yesterday</h2>
                             <svg className="absolute -bottom-1 left-0 w-full h-3" viewBox="0 0 100 12" preserveAspectRatio="none">
                                 <path d="M0,6 Q25,2 50,6 T100,6" fill="none" stroke="#ffffff" strokeWidth="3" />
                             </svg>
                         </div>
-                        <p className="text-lg font-custom-2 font-semibold mb-1">Keep it accurate.</p>
+                        <p className="text-lg font-custom-2 font-semibold mb-1">Mastering the Craft.</p>
                         <p className="text-sm text-white/70 leading-relaxed font-sans">
-                            [day-to day operations handled, records accurate, compliance sorted]
+                            Focused on core software development, mastering clean code, and delivering specialized business tools like the Timber Log management system.
                         </p>
                         <div className="mt-4 inline-flex items-center gap-1.5">
                             <span className="text-white/60 font-mono text-lg">⌜</span>
-                            <span className="text-xs tracking-widest font-medium">Help me start</span>
+                            <span className="text-xs tracking-widest font-medium">Foundations</span>
                             <span className="text-white/60 font-mono text-lg">⌟</span>
                         </div>
                     </div>
@@ -124,21 +124,21 @@ export default function Journey() {
                         </svg>
                     </div>
 
-                    {/* YESTERDAY (Center) */}
-                    <div className="milestone-box milestone-yesterday md:absolute md:top-[40%] md:left-1/2 md:-translate-x-1/2 max-w-[320px] text-center mb-8 md:mb-0 mx-auto">
+                    {/* TODAY (Center) */}
+                    <div className="milestone-box milestone-today md:absolute md:top-[40%] md:left-1/2 md:-translate-x-1/2 max-w-[320px] text-center mb-8 md:mb-0 mx-auto">
                         <div className="relative inline-block mb-3">
-                            <h2 className="text-3xl md:text-4xl font-custom tracking-wide uppercase">Yesterday</h2>
+                            <h2 className="text-3xl md:text-4xl font-custom tracking-wide uppercase">Today</h2>
                             <svg className="absolute -bottom-1 left-0 w-full h-3" viewBox="0 0 100 12" preserveAspectRatio="none">
                                 <path d="M0,6 Q25,10 50,6 T100,6" fill="none" stroke="#ffffff" strokeWidth="3" />
                             </svg>
                         </div>
-                        <p className="text-lg font-custom-2 font-semibold mb-1">Know where you stand.</p>
+                        <p className="text-lg font-custom-2 font-semibold mb-1">Strategic Growth.</p>
                         <p className="text-sm text-white/70 leading-relaxed font-sans">
-                            [reports and KPIs to track your progress and performance]
+                            Delivering high-performance full-stack applications with a focus on robust project management and long-term maintenance support.
                         </p>
                         <div className="mt-4 inline-flex items-center gap-1.5">
                             <span className="text-white/60 font-mono text-lg">⌜</span>
-                            <span className="text-xs tracking-widest font-medium">Help me level up</span>
+                            <span className="text-xs tracking-widest font-medium">Expert Delivery</span>
                             <span className="text-white/60 font-mono text-lg">⌟</span>
                         </div>
                     </div>
@@ -159,13 +159,13 @@ export default function Journey() {
                                 <path d="M0,6 Q25,2 50,6 T100,6" fill="none" stroke="#ffffff" strokeWidth="3" />
                             </svg>
                         </div>
-                        <p className="text-lg font-custom-2 font-semibold mb-1">The Digital Horizon.</p>
+                        <p className="text-lg font-custom-2 font-semibold mb-1">Technical Vision.</p>
                         <p className="text-sm text-white/70 leading-relaxed font-sans">
-                            [Next-gen cloud-native systems & cross-platform high-perf mobile]
+                            Scaling complex cloud infrastructures and exploring next-gen software architectures to solve global technical challenges.
                         </p>
                         <div className="mt-4 inline-flex items-center gap-1.5 md:justify-end">
                             <span className="text-white/60 font-mono text-lg">⌜</span>
-                            <span className="text-xs tracking-widest font-medium">Future State</span>
+                            <span className="text-xs tracking-widest font-medium">Technical Future</span>
                             <span className="text-white/60 font-mono text-lg">⌟</span>
                         </div>
                     </div>
