@@ -68,6 +68,7 @@ export default function Navigation() {
                             <span className="text-lg font-serif">✦</span>
                         </Link>
 
+
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-1 ">
                             {navLinks.map((link) => (
