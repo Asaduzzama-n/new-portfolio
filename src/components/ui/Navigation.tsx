@@ -8,9 +8,9 @@ import TextRoll from './TextRoll';
 const navLinks = [
     { name: 'About', href: '/#about' },
     { name: 'Process', href: '/#process' },
-    { name: 'Projects', href: '/#projects' },
+    // { name: 'Projects', href: '/#projects' },
     { name: 'Services', href: '/#services' },
-    // { name: 'Blog', href: '/#blog' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/#contact' },
 ];
 

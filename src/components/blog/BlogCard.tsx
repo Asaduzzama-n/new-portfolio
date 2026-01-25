@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Card from '@/components/ui/Card';
 import { BlogPost } from '@/lib/blog-data';
 
 interface BlogCardProps {
@@ -13,44 +12,36 @@ interface BlogCardProps {
 export default function BlogCard({ post, index = 0 }: BlogCardProps) {
     return (
         <motion.div
+            layout
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+            className="flex flex-col h-full bg-[#272726] rounded-4xl p-6"
         >
-            <Link href={`/blog/${post.slug}`}>
-                <Card className="h-full overflow-hidden group">
-                    {/* Image placeholder */}
-                    <div className="h-56 bg-gradient-to-br from-[#1a1a1a] to-[#252525] flex items-center justify-center group-hover:from-[#252525] group-hover:to-[#1a1a1a] transition-all duration-500">
-                        <span className="text-6xl opacity-50 group-hover:scale-110 transition-transform duration-500">
-                            📝
+            <Link href={`/blog/${post.slug}`} className="group flex flex-col h-full">
+                {/* Image Container */}
+                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#1a1a1a] border border-white/5 mb-6">
+                    {/* Placeholder for real images */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-7xl opacity-5">
+                            {post.category.includes('Brand') ? '🎨' : post.category.includes('UX') ? '📱' : '💻'}
                         </span>
                     </div>
-                    <div className="p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                            <span className="text-xs font-medium px-3 py-1 bg-[#1a1a1a] rounded-full text-white/60">
-                                {post.category}
-                            </span>
-                            <span className="text-xs text-white/40">{post.readTime}</span>
-                        </div>
-                        <h3 className="text-xl font-serif mb-3 group-hover:text-white/80 transition-colors">
-                            {post.title}
-                        </h3>
-                        <p className="text-white/50 text-sm line-clamp-2 mb-4">{post.excerpt}</p>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="text-lg">{post.author.avatar ? '👤' : '👤'}</span>
-                                <span className="text-sm text-white/60">{post.author.name}</span>
-                            </div>
-                            <span className="text-xs text-white/40">
-                                {new Date(post.date).toLocaleDateString('en-US', {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric',
-                                })}
-                            </span>
-                        </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col flex-grow">
+                    <div className="flex items-center gap-2 mb-3 text-sm font-medium">
+                        <span className="text-white/40">{post.category}</span>
+                        <span className="text-white/20">•</span>
+                        <span className="text-white/40">{post.readTime}</span>
                     </div>
-                </Card>
+
+                    <h3 className="text-2xl font-custom-2 text-white/90 leading-tight">
+                        {post.title}
+                    </h3>
+                </div>
             </Link>
         </motion.div>
     );

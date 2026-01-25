@@ -51,9 +51,9 @@ export default function About() {
                             <AnimatedButton href="#contact" variant="primary">
                                 START A PROJECT
                             </AnimatedButton>
-                            <AnimatedButton href="#projects" variant="ghost">
+                            {/* <AnimatedButton href="#projects" variant="ghost">
                                 VIEW MY WORK
-                            </AnimatedButton>
+                            </AnimatedButton> */}
                         </div>
                     </motion.div>
 

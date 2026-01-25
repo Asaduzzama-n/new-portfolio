@@ -137,8 +137,62 @@ Great responsive design is invisible—users should have a seamless experience r
     `,
         date: '2024-12-05',
         readTime: '6 min read',
-        category: 'Development',
+        category: 'Web Design',
         image: '/blog/responsive-design.jpg',
+        author: {
+            name: 'Elena',
+            avatar: '/avatar.jpg',
+        },
+    },
+    {
+        slug: 'crafting-brands-that-stick',
+        title: 'Crafting Brands That Stick: The Power of Visual Identity',
+        excerpt: 'Explore how a strong visual identity can transform a brand and create lasting connections.',
+        content: `
+# Crafting Brands That Stick
+
+A brand is more than just a logo. It is an emotional connection between a company and its audience...
+        `,
+        date: '2024-11-20',
+        readTime: '3 min read',
+        category: 'Brand Design',
+        image: '/blog/brand-design.jpg',
+        author: {
+            name: 'Elena',
+            avatar: '/avatar.jpg',
+        },
+    },
+    {
+        slug: 'designing-interfaces-people-love',
+        title: 'Designing Interfaces People Love to Use',
+        excerpt: 'Learn the secrets to creating intuitive and engaging user interfaces that users will appreciate.',
+        content: `
+# Designing Interfaces People Love
+
+User experience is the heart of any digital product. When users find an interface intuitive, they build trust...
+        `,
+        date: '2024-11-15',
+        readTime: '2 min read',
+        category: 'UX/UI Design',
+        image: '/blog/ui-ux-design.jpg',
+        author: {
+            name: 'Elena',
+            avatar: '/avatar.jpg',
+        },
+    },
+    {
+        slug: 'the-future-of-web-design',
+        title: 'The Future of Web Design: Function Meets Emotion',
+        excerpt: 'How the next generation of web design is blending technical excellence with emotional storytelling.',
+        content: `
+# The Future of Web Design
+
+The web is evolving. No longer just a source of information, it is becoming a canvas for experiences...
+        `,
+        date: '2024-11-10',
+        readTime: '3 min read',
+        category: 'Web Design',
+        image: '/blog/future-web.jpg',
         author: {
             name: 'Elena',
             avatar: '/avatar.jpg',
