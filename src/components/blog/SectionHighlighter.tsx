@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { motion } from 'framer-motion';
 
 interface Section {
     id: string;
@@ -15,27 +15,12 @@ interface SectionHighlighterProps {
 
 const SectionHighlighter: React.FC<SectionHighlighterProps> = ({ sections }) => {
     const [activeId, setActiveId] = useState<string>('');
-    const { scrollYProgress } = useScroll();
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [lineHeight, setLineHeight] = useState(0);
-
-    // Smooth the scroll progress for the SVG line
-    const scaleY = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setLineHeight(containerRef.current.offsetHeight);
-        }
-    }, [sections]);
+    const itemRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
 
     useEffect(() => {
         const observerOptions = {
             root: null,
-            rootMargin: '-10% 0px -85% 0px', // Adjusted for better accuracy
+            rootMargin: '-10% 0px -80% 0px',
             threshold: 0
         };
 
@@ -77,60 +62,90 @@ const SectionHighlighter: React.FC<SectionHighlighterProps> = ({ sections }) => 
         }
     };
 
+    // Calculate marker position and height
+    const markerStyle = useMemo(() => {
+        if (!activeId || Object.keys(itemRefs.current).length === 0) return null;
+
+        const activeIndex = sections.findIndex(s => s.id === activeId);
+        if (activeIndex === -1) return null;
+
+        const activeSection = sections[activeIndex];
+        const activeEl = itemRefs.current[activeId];
+        if (!activeEl) return null;
+
+        let height = 24; // Default height for a single item
+
+        // If it's a parent (level 1 or 2), find the "scope" of its children
+        if (activeSection.level < 3) {
+            let lastChildIndex = activeIndex;
+            for (let i = activeIndex + 1; i < sections.length; i++) {
+                if (sections[i].level > activeSection.level) {
+                    lastChildIndex = i;
+                } else {
+                    break;
+                }
+            }
+
+            if (lastChildIndex > activeIndex) {
+                const lastChildEl = itemRefs.current[sections[lastChildIndex].id];
+                if (lastChildEl) {
+                    const top = activeEl.offsetTop;
+                    const bottom = lastChildEl.offsetTop + lastChildEl.offsetHeight;
+                    height = bottom - top;
+                }
+            }
+        }
+
+        return {
+            top: activeEl.offsetTop,
+            height: height
+        };
+    }, [activeId, sections]);
+
     if (sections.length === 0) return null;
 
     return (
-        <div ref={containerRef} className="relative pl-4">
+        <div className="relative pl-6 py-2 ">
             {/* Background Line */}
-            <div
-                className="absolute left-[7px] top-2 bottom-2 w-[1px] bg-white/5 rounded-full"
-                style={{ height: lineHeight > 0 ? `${lineHeight - 16}px` : '100%' }}
-            />
+            {/* <div className="absolute left-[-1px] top-0 bottom-0 w-[1px] bg-white/5" /> */}
 
-            {/* Progress Line */}
-            <motion.div
-                className="absolute left-[7px] top-2 w-[1px] bg-white origin-top rounded-full"
-                style={{
-                    scaleY,
-                    height: lineHeight > 0 ? `${lineHeight - 16}px` : '100%',
-                }}
-            />
+            {/* Active Marker Line */}
+            {markerStyle && (
+                <motion.div
+                    layout
+                    className="absolute left-[-1.5px] w-[2px] bg-white shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full z-20"
+                    initial={false}
+                    animate={{
+                        top: markerStyle.top,
+                        height: markerStyle.height,
+                        opacity: 1
+                    }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 35
+                    }}
+                />
+            )}
 
-            <ul className="space-y-4 relative z-10">
+            <ul className="space-y-6">
                 {sections.map((section) => (
                     <li
                         key={section.id}
-                        className={`transition-none ${section.level === 3 ? 'ml-6' : 'ml-0'
+                        ref={(el) => { itemRefs.current[section.id] = el; }}
+                        className={`transition-all duration-300 flex items-center ${section.level === 3 ? 'pl-4' : 'pl-0'
                             }`}
+                        style={{ height: '1.5rem' }}
                     >
                         <button
                             onClick={() => scrollToSection(section.id)}
-                            className={`group flex items-start text-left ${activeId === section.id
-                                ? 'text-white'
-                                : 'text-white/80'
+                            className={`group inline-block w-full text-left text-sm transition-all duration-300 whitespace-nowrap overflow-hidden text-ellipsis ${activeId === section.id
+                                ? 'text-white font-medium'
+                                : 'text-white/40 hover:text-white/60'
                                 }`}
+                            title={section.title}
                         >
-                            {/* Marker Dot */}
-                            <div className="relative flex items-center justify-center mr-4 mt-[6px] shrink-0">
-                                {section.level === 1 || section.level === 2 ? (
-                                    <div className={`w-[7px] h-[7px] rounded-full border ${activeId === section.id
-                                        ? 'bg-white border-white'
-                                        : 'bg-transparent border-white/10'
-                                        }`} />
-                                ) : (
-                                    <div className={`w-[3px] h-[3px] rounded-full ${activeId === section.id
-                                        ? 'bg-white/60'
-                                        : 'bg-white/5'
-                                        }`} />
-                                )}
-                            </div>
-
-                            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] leading-relaxed ${activeId === section.id
-                                ? 'opacity-100'
-                                : 'opacity-40'
-                                } ${section.level === 3 ? 'text-[9px] font-medium tracking-widest' : ''}`}>
-                                {section.title}
-                            </span>
+                            {section.title}
                         </button>
                     </li>
                 ))}

@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { RoleSwitcher } from '@/components/ui/RoleSwitcher';
+
 
 export default function Hero() {
     return (
@@ -41,9 +43,7 @@ export default function Hero() {
                     {/* Name and Tagline */}
                     <div className="space-y-2">
                         {/* <p className="text-lg lg:text-xl font-medium">Asaduzzaman</p> */}
-                        <p className="text-sm lg:text-base text-white/60 max-w-md">
-                            Software Engineer
-                        </p>
+                        <RoleSwitcher />
                         <div className="flex gap-2 text-xs text-white/40 pt-2">
                             <span className="border-b border-white/20 pb-0.5">English</span>
                             <span>|</span>
