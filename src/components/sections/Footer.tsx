@@ -93,12 +93,12 @@ export default function Footer() {
             </div>
 
             {/* Large Background Text */}
-            <div className="absolute -bottom-[20%] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none">
-                <h1 className="text-[25vw] font-custom-2 leading-none opacity-[0.05] tracking-tighter">
+            <div className="absolute -bottom-[10%] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none">
+                <h1 className="text-[30vw] font-custom-2 leading-none opacity-[0.10] tracking-tighter">
                     ASAD
                 </h1>
                 {/* Blur Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent h-full" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent h-full" />
             </div>
 
             {/* Bottom Blur positioned fixed to the bottom as requested */}

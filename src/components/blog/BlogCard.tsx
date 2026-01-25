@@ -2,7 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BlogPost } from '@/lib/blog-data';
+
 
 interface BlogCardProps {
     post: BlogPost;
@@ -22,12 +24,20 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
             <Link href={`/blog/${post.slug}`} className="group flex flex-col h-full">
                 {/* Image Container */}
                 <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#1a1a1a] border border-white/5 mb-6">
-                    {/* Placeholder for real images */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-7xl opacity-5">
-                            {post.category.includes('Brand') ? '🎨' : post.category.includes('UX') ? '📱' : '💻'}
-                        </span>
-                    </div>
+                    {post.image ? (
+                        <Image
+                            src={post.image}
+                            alt={post.title}
+                            fill
+                            className="object-cover grayscale transition-all duration-700"
+                        />
+                    ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-7xl opacity-5">
+                                {post.category.includes('Project') ? '📊' : post.category.includes('App') ? '📱' : '💻'}
+                            </span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Content */}
@@ -38,9 +48,18 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
                         <span className="text-white/40">{post.readTime}</span>
                     </div>
 
-                    <h3 className="text-2xl font-custom-2 text-white/90 leading-tight">
+                    <h3 className="text-2xl font-custom-2 text-white/90 leading-tight mb-4">
                         {post.title}
                     </h3>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                        {post.tags.map((tag) => (
+                            <span key={tag} className="text-[9px] uppercase tracking-widest text-white/60 font-bold border border-white/5 px-2 py-0.5 rounded-4xl">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
                 </div>
             </Link>
         </motion.div>

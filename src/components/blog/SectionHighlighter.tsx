@@ -106,28 +106,28 @@ const SectionHighlighter: React.FC<SectionHighlighterProps> = ({ sections }) => 
                         <button
                             onClick={() => scrollToSection(section.id)}
                             className={`group flex items-start text-left ${activeId === section.id
-                                    ? 'text-white'
-                                    : 'text-white/20'
+                                ? 'text-white'
+                                : 'text-white/80'
                                 }`}
                         >
                             {/* Marker Dot */}
                             <div className="relative flex items-center justify-center mr-4 mt-[6px] shrink-0">
                                 {section.level === 1 || section.level === 2 ? (
                                     <div className={`w-[7px] h-[7px] rounded-full border ${activeId === section.id
-                                            ? 'bg-white border-white'
-                                            : 'bg-transparent border-white/10'
+                                        ? 'bg-white border-white'
+                                        : 'bg-transparent border-white/10'
                                         }`} />
                                 ) : (
                                     <div className={`w-[3px] h-[3px] rounded-full ${activeId === section.id
-                                            ? 'bg-white/60'
-                                            : 'bg-white/5'
+                                        ? 'bg-white/60'
+                                        : 'bg-white/5'
                                         }`} />
                                 )}
                             </div>
 
                             <span className={`text-[10px] font-bold uppercase tracking-[0.2em] leading-relaxed ${activeId === section.id
-                                    ? 'opacity-100'
-                                    : 'opacity-40'
+                                ? 'opacity-100'
+                                : 'opacity-40'
                                 } ${section.level === 3 ? 'text-[9px] font-medium tracking-widest' : ''}`}>
                                 {section.title}
                             </span>

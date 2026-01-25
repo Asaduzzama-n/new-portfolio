@@ -93,7 +93,7 @@ export default function Technologies() {
                         {technologies.map((tech, index) => (
                             <span
                                 key={tech}
-                                className="tech-item text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-custom text-white/20 hover:text-white transition-colors duration-300 cursor-default"
+                                className="tech-item text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-custom text-white/50 hover:text-white transition-colors duration-300 cursor-default"
                             >
                                 {tech}
                             </span>

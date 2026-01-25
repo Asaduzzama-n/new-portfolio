@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { blogPosts, getBlogPost, getAllBlogSlugs } from '@/lib/blog-data';
 import BlogHeader from '@/components/blog/BlogHeader';
 import SectionHighlighter from '@/components/blog/SectionHighlighter';
@@ -8,14 +9,12 @@ interface Props {
     params: Promise<{ slug: string }>;
 }
 
-// Generate static paths for all blog posts
 export async function generateStaticParams() {
     return getAllBlogSlugs().map((slug) => ({
         slug,
     }));
 }
 
-// Generate metadata for each blog post
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const post = getBlogPost(slug);
@@ -27,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     return {
-        title: `${post.title} | Elena Blog`,
+        title: `${post.title} | ${post.category}`,
         description: post.excerpt,
     };
 }
@@ -50,34 +49,86 @@ export default async function BlogPostPage({ params }: Props) {
 
     const sections: { id: string; title: string; level: number }[] = [];
 
-    // Convert markdown-like content to HTML and extract sections
-    const contentHtml = post.content
-        .split('\n')
-        .map((line) => {
-            if (line.startsWith('# ')) {
-                const title = line.slice(2).trim();
-                const id = slugify(title);
-                sections.push({ id, title, level: 1 });
-                return `<h1 id="${id}" class="text-3xl md:text-4xl font-custom-2 mb-6 mt-12 scroll-mt-32">${title}</h1>`;
+    // Improved Markdown Parser
+    const lines = post.content.split('\n');
+    let htmlContent = '';
+    let inList = false;
+    let listType: 'ul' | 'ol' | null = null;
+
+    const processInline = (text: string) => {
+        return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>');
+    };
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        // Handle Headings
+        if (line.startsWith('# ')) {
+            if (inList) { htmlContent += `</${listType}>`; inList = false; }
+            const title = line.slice(2).trim();
+            const id = slugify(title);
+            sections.push({ id, title, level: 1 });
+            htmlContent += `<h1 id="${id}" class="text-4xl md:text-5xl font-custom-2 mb-6 mt-12 scroll-mt-32">${processInline(title)}</h1>`;
+            continue;
+        }
+        if (line.startsWith('## ')) {
+            if (inList) { htmlContent += `</${listType}>`; inList = false; }
+            const title = line.slice(3).trim();
+            const id = slugify(title);
+            sections.push({ id, title, level: 2 });
+            htmlContent += `<h2 id="${id}" class="text-2xl md:text-3xl font-custom-2 mb-4 mt-10 scroll-mt-32">${processInline(title)}</h2>`;
+            continue;
+        }
+        if (line.startsWith('### ')) {
+            if (inList) { htmlContent += `</${listType}>`; inList = false; }
+            const title = line.slice(4).trim();
+            const id = slugify(title);
+            sections.push({ id, title, level: 3 });
+            htmlContent += `<h3 id="${id}" class="text-xl md:text-2xl font-custom-2 mb-3 mt-8 scroll-mt-32">${processInline(title)}</h3>`;
+            continue;
+        }
+
+        // Handle Lists
+        const isUnordered = line.startsWith('- ');
+        const isOrdered = /^\d+\.\s/.test(line);
+
+        if (isUnordered || isOrdered) {
+            const currentType = isUnordered ? 'ul' : 'ol';
+            const content = isUnordered ? line.slice(2) : line.replace(/^\d+\.\s*/, '');
+
+            if (!inList) {
+                inList = true;
+                listType = currentType;
+                htmlContent += `<${listType} class="mb-6 space-y-4">`;
+            } else if (listType !== currentType) {
+                htmlContent += `</${listType}><${currentType} class="mb-6 space-y-4">`;
+                listType = currentType;
             }
-            if (line.startsWith('## ')) {
-                const title = line.slice(3).trim();
-                const id = slugify(title);
-                sections.push({ id, title, level: 2 });
-                return `<h2 id="${id}" class="text-2xl md:text-3xl font-custom-2 mb-4 mt-10 scroll-mt-32">${title}</h2>`;
+
+            htmlContent += `<li class="ml-6 text-white/70 ${isUnordered ? 'list-disc' : 'list-decimal'} pl-2 leading-relaxed">${processInline(content)}</li>`;
+            continue;
+        }
+
+        // Handle Empty Lines
+        if (line === '') {
+            // If we are in a list, a blank line might just be spacing between items
+            // But if the NEXT line is not a list item, we should close the list.
+            const nextLine = lines[i + 1]?.trim();
+            if (!nextLine?.startsWith('- ') && !/^\d+\.\s/.test(nextLine || '')) {
+                if (inList) {
+                    htmlContent += `</${listType}>`;
+                    inList = false;
+                }
             }
-            if (line.startsWith('### ')) {
-                const title = line.slice(4).trim();
-                const id = slugify(title);
-                sections.push({ id, title, level: 3 });
-                return `<h3 id="${id}" class="text-xl md:text-2xl font-custom-2 mb-3 mt-8 scroll-mt-32">${title}</h3>`;
-            }
-            if (line.trim() === '') {
-                return '';
-            }
-            return `<p class="text-white/70 leading-relaxed mb-4">${line}</p>`;
-        })
-        .join('');
+            continue;
+        }
+
+        // Handle Paragraphs
+        if (inList) { htmlContent += `</${listType}>`; inList = false; }
+        htmlContent += `<p class="text-white/70 leading-relaxed mb-6">${processInline(line)}</p>`;
+    }
+
+    if (inList) { htmlContent += `</${listType}>`; }
 
     return (
         <div className="pt-32 pb-24 px-4">
@@ -97,11 +148,25 @@ export default async function BlogPostPage({ params }: Props) {
 
                     {/* Right Content - Blog Article */}
                     <div className="w-full lg:w-3/4">
-                        {/* Featured Image Replacement/Placeholder */}
+                        {/* Featured Image */}
                         <div className="mb-12">
-                            <div className="h-64 md:h-96 rounded-3xl bg-gradient-to-br from-[#1a1a1a] to-[#252525] flex items-center justify-center border border-white/5 relative overflow-hidden group">
-                                <span className="text-8xl opacity-10 group-hover:scale-110 transition-transform duration-700">📝</span>
-                                <div className="absolute inset-0 bg-gradient-to-tr from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                            <div className="relative h-64 md:h-96 rounded-3xl bg-gradient-to-br from-[#1a1a1a] to-[#252525] flex items-center justify-center border border-white/5 overflow-hidden group">
+                                {post.image ? (
+                                    <Image
+                                        src={post.image}
+                                        alt={post.title}
+                                        fill
+                                        className="object-cover grayscale transition-all duration-700 group-hover:scale-105"
+                                        priority
+                                    />
+                                ) : (
+                                    <>
+                                        <span className="text-8xl opacity-10 group-hover:scale-110 transition-transform duration-700">
+                                            {post.category.includes('Project') ? '📊' : post.category.includes('App') ? '📱' : '💻'}
+                                        </span>
+                                        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -117,7 +182,7 @@ export default async function BlogPostPage({ params }: Props) {
                                     prose-a:text-accent hover:prose-a:text-accent/80 transition-colors
                                     prose-blockquote:border-accent prose-blockquote:bg-white/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl
                                 "
-                                dangerouslySetInnerHTML={{ __html: contentHtml }}
+                                dangerouslySetInnerHTML={{ __html: htmlContent }}
                             />
                         </article>
 

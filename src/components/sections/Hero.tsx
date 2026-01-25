@@ -33,16 +33,16 @@ export default function Hero() {
                 >
                     {/* Large Vertical Name */}
                     <div className="relative">
-                        <h1 className="text-[15vw] lg:text-6xl xl:text-8xl font-bold leading-[0.85] tracking-tight font-custom2">
+                        <h1 className="text-[15vw] lg:text-6xl xl:text-8xl font-bold leading-[0.85] tracking-tight font-custom-2">
                             ASADUZZAMAN
                         </h1>
                     </div>
 
                     {/* Name and Tagline */}
                     <div className="space-y-2">
-                        <p className="text-lg lg:text-xl font-medium">Asaduzzaman</p>
+                        {/* <p className="text-lg lg:text-xl font-medium">Asaduzzaman</p> */}
                         <p className="text-sm lg:text-base text-white/60 max-w-md">
-                            Software Engineer & Developer | Project Management & Maintenance Support
+                            Software Engineer
                         </p>
                         <div className="flex gap-2 text-xs text-white/40 pt-2">
                             <span className="border-b border-white/20 pb-0.5">English</span>
