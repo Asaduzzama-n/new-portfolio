@@ -7,11 +7,12 @@ import WordPreloader from "@/components/ui/WordPreloader";
 import Navigation from "@/components/ui/Navigation";
 import Footer from "@/components/sections/Footer";
 import ProgressiveBlur from "@/components/ui/ProgressiveBlur";
-import { TransitionProvider } from "@/components/providers/TransitionProvider";
+import { TransitionProvider, useTransitionNavigate } from "@/components/providers/TransitionProvider";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
     const pathname = usePathname();
+    const { setIsPageReady } = useTransitionNavigate();
 
     useEffect(() => {
         // Initial delay to match word preloader timing
@@ -19,14 +20,27 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             setIsLoading(false);
             // Ensure scroll is enabled after preloader
             document.body.style.cursor = 'default';
-            window.scrollTo(0, 0);
+
+            // Handle initial scroll: Top unless hash exists
+            if (window.location.hash) {
+                const id = window.location.hash.replace('#', '');
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                window.scrollTo(0, 0);
+            }
+
+            // Mark page as ready for hero animations after curtain lift starts
+            setTimeout(() => setIsPageReady(true), 400);
         }, 2800);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [setIsPageReady]);
 
     return (
-        <TransitionProvider>
+        <>
             <AnimatePresence mode="wait">
                 {isLoading && <WordPreloader key="preloader" />}
             </AnimatePresence>
@@ -50,6 +64,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 <Footer />
                 <ProgressiveBlur />
             </motion.div>
-        </TransitionProvider>
+        </>
     );
 }

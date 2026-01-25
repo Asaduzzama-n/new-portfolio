@@ -4,6 +4,7 @@ import "./globals.css";
 import "../styles/WaveTransition.css";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import MainLayout from "@/components/layout/MainLayout";
+import { TransitionProvider } from "@/components/providers/TransitionProvider";
 
 const customFont = localFont({
   src: '../../public/fonts/custom-font.woff2',
@@ -31,9 +32,11 @@ export default function RootLayout({
     <html lang="en" className={`dark ${customFont.variable} ${customFont2.variable}`}>
       <body className="text-white antialiased font-sans">
         <SmoothScrollProvider>
-          <MainLayout>
-            {children}
-          </MainLayout>
+          <TransitionProvider>
+            <MainLayout>
+              {children}
+            </MainLayout>
+          </TransitionProvider>
         </SmoothScrollProvider>
       </body>
     </html>
