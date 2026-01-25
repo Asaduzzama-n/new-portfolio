@@ -1,7 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useTransition } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import PageTransitionOverlay from '@/components/ui/PageTransitionOverlay';
 
 interface TransitionContextType {
     navigate: (href: string) => void;
@@ -19,37 +20,26 @@ export const useTransitionNavigate = () => {
 
 export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const router = useRouter();
-    const [isPending, startTransition] = useTransition();
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     const navigate = (href: string) => {
-        // If View Transition API is not supported, just use regular router push
-        if (!document.startViewTransition) {
+        // Trigger the liquid sweep
+        setIsTransitioning(true);
+
+        // Wait for the sweep-up animation (0.8s entrance + some buffer)
+        setTimeout(() => {
             router.push(href);
-            return;
-        }
 
-        // Trigger the wave overlay if we want it (optional, can be done via CSS classes)
-        document.documentElement.classList.add('wave-transition-active');
-
-        document.startViewTransition(() => {
-            return new Promise((resolve) => {
-                startTransition(() => {
-                    router.push(href);
-                    // We need a way to know when the new page is rendered.
-                    // React's startTransition combined with Next.js navigation 
-                    // is tricky to resolve exactly when the DOM is ready.
-                    // For now, we'll use a short timeout or just resolve immediately
-                    // as the View Transition API handles the snapshotting.
-                    setTimeout(resolve, 100);
-                });
-            });
-        }).finished.finally(() => {
-            document.documentElement.classList.remove('wave-transition-active');
-        });
+            // Allow the exit lift to happen after a small delay to ensure content is ready
+            setTimeout(() => {
+                setIsTransitioning(false);
+            }, 300); // Reduced for snappier feel
+        }, 800);
     };
 
     return (
         <TransitionContext.Provider value={{ navigate }}>
+            <PageTransitionOverlay isTransitioning={isTransitioning} />
             {children}
         </TransitionContext.Provider>
     );
