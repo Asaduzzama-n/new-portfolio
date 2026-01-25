@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local';
 import "./globals.css";
+import "../styles/WaveTransition.css";
 import Footer from "@/components/sections/Footer";
 import Navigation from "@/components/ui/Navigation";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import ProgressiveBlur from "@/components/ui/ProgressiveBlur";
+import { TransitionProvider } from "@/components/providers/TransitionProvider";
 
 const customFont = localFont({
   src: '../../public/fonts/custom-font.woff2',
@@ -43,10 +45,12 @@ export default function RootLayout({
     <html lang="en" className={`dark ${customFont.variable} ${customFont2.variable}`}>
       <body className="text-white antialiased font-sans">
         <SmoothScrollProvider>
-          <Navigation />
-          {children}
-          <Footer />
-          <ProgressiveBlur />
+          <TransitionProvider>
+            <Navigation />
+            {children}
+            <Footer />
+            <ProgressiveBlur />
+          </TransitionProvider>
         </SmoothScrollProvider>
 
         {/* Bottom Blur Effect */}

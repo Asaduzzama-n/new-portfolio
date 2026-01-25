@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useTransitionNavigate } from '@/components/providers/TransitionProvider';
 import TextRoll from './TextRoll';
 
 const navLinks = [
@@ -18,6 +19,7 @@ export default function Navigation() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+    const { navigate } = useTransitionNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -28,14 +30,22 @@ export default function Navigation() {
     }, []);
 
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        if (href.startsWith('#') && window.location.pathname === '/') {
-            e.preventDefault();
-            const element = document.querySelector(href);
+        setIsMobileMenuOpen(false);
+
+        // Internal hash link on the same page
+        if (href.startsWith('#') || (href.includes('#') && href.split('#')[0] === window.location.pathname) || (href.startsWith('/#') && window.location.pathname === '/')) {
+            const hash = href.includes('#') ? '#' + href.split('#')[1] : href;
+            const element = document.querySelector(hash);
             if (element) {
+                e.preventDefault();
                 element.scrollIntoView({ behavior: 'smooth' });
+                return;
             }
         }
-        setIsMobileMenuOpen(false);
+
+        // Cross-page or external navigation
+        e.preventDefault();
+        navigate(href);
     };
 
     return (
@@ -50,29 +60,29 @@ export default function Navigation() {
                 <nav className="glass rounded-full px-2 py-1 bg-primary">
                     <div className="flex items-center gap-1">
                         {/* Logo */}
-                        <a
+                        <Link
                             href="/#home"
                             onClick={(e) => scrollToSection(e, '/#home')}
                             className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center mr-2 hover:bg-[#252525] transition-colors cursor-pointer"
                         >
                             <span className="text-lg font-serif">✦</span>
-                        </a>
+                        </Link>
 
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-1 ">
                             {navLinks.map((link) => (
-                                <motion.a
+                                <Link
                                     key={link.name}
                                     href={link.href}
                                     onClick={(e) => scrollToSection(e, link.href)}
-                                    className="px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-full bg-secondary"
+                                    className="px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-full bg-secondary block"
                                     onMouseEnter={() => setHoveredLink(link.name)}
                                     onMouseLeave={() => setHoveredLink(null)}
                                 >
                                     <TextRoll isHovered={hoveredLink === link.name}>
                                         {link.name.toUpperCase()}
                                     </TextRoll>
-                                </motion.a>
+                                </Link>
                             ))}
                         </div>
 
@@ -103,7 +113,7 @@ export default function Navigation() {
                     >
                         <div className="flex flex-col gap-2">
                             {navLinks.map((link) => (
-                                <a
+                                <Link
                                     key={link.name}
                                     href={link.href}
                                     onClick={(e) => scrollToSection(e, link.href)}
@@ -114,7 +124,7 @@ export default function Navigation() {
                                     <TextRoll isHovered={hoveredLink === link.name}>
                                         {link.name.toUpperCase()}
                                     </TextRoll>
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </motion.div>

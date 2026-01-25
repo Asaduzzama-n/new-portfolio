@@ -1,0 +1,83 @@
+/* View Transition API Overrides */
+::view-transition-group(root) {
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+::view-transition-old(root) {
+    animation: 0.4s cubic-bezier(0.76, 0, 0.24, 1) both wave-out;
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    animation: 0.8s cubic-bezier(0.76, 0, 0.24, 1) both wave-in;
+    z-index: 2;
+}
+
+/* Layered Wave Animation for Content */
+@keyframes wave-in {
+    from {
+        clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+        transform: translateY(30px);
+        filter: blur(10px);
+    }
+
+    to {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes wave-out {
+    from {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    to {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    }
+}
+
+/* Leading Wave Overlay (Two-Layer Effect) */
+html.wave-transition-active::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 9999;
+    pointer-events: none;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    animation: wave-sweep 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+html.wave-transition-active::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: #111;
+    /* Dark background matching the page */
+    z-index: 9998;
+    pointer-events: none;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    animation: wave-sweep 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.15s forwards;
+}
+
+@keyframes wave-sweep {
+    0% {
+        clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    }
+
+    35% {
+        clip-path: polygon(0% 40%, 20% 55%, 45% 25%, 75% 45%, 100% 15%, 100% 100%, 0% 100%);
+    }
+
+    65% {
+        clip-path: polygon(0% 0%, 20% 12%, 45% 0%, 75% 8%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    100% {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+        opacity: 0;
+    }
+}
