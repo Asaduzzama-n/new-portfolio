@@ -11,10 +11,10 @@ export default function Hero() {
     const { isPageReady } = useTransitionNavigate();
 
     return (
-        <section id="home" className="h-screen w-full flex items-stretch ">
-            <div className="w-full h-full grid lg:grid-cols-2">
+        <section id="home" className="h-screen w-full flex items-stretch overflow-hidden">
+            <div className="w-full h-full grid grid-rows-[auto_auto] lg:grid-rows-1 lg:grid-cols-2">
                 {/* Left Side - Image */}
-                <div className="relative h-full w-full overflow-hidden">
+                <div className="relative h-[40vh] lg:h-full w-full overflow-hidden">
                     <motion.div
                         initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
                         animate={isPageReady ? { clipPath: 'inset(0% 0% 0% 0%)', scale: 1 } : { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
@@ -32,14 +32,14 @@ export default function Hero() {
                 </div>
 
                 {/* Right Side - Text Content */}
-                <div className="flex flex-col justify-center px-8 lg:px-16 xl:px-24 space-y-8 lg:space-y-12 bg-background">
+                <div className="flex flex-col justify-start pt-4 lg:justify-center items-center lg:items-start text-center lg:text-left px-4 lg:px-16 lg:py-0 xl:px-24 space-y-2 lg:space-y-12 bg-background">
                     {/* Large Vertical Name - Masked Reveal */}
-                    <div className="overflow-hidden">
+                    <div className="overflow-hidden w-full">
                         <motion.h1
                             initial={{ y: '100%' }}
                             animate={isPageReady ? { y: '0%' } : { y: '100%' }}
                             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
-                            className="text-[15vw] lg:text-6xl xl:text-8xl font-bold leading-[0.85] tracking-tight font-custom-2"
+                            className="text-[clamp(2rem,10vw,4rem)] lg:text-6xl xl:text-8xl font-bold leading-[0.85] tracking-tight font-custom-2 break-words"
                         >
                             ASADUZZAMAN
                         </motion.h1>
@@ -53,7 +53,7 @@ export default function Hero() {
                         className="space-y-2"
                     >
                         <RoleSwitcher />
-                        <div className="flex gap-2 text-xs text-white/40 pt-2">
+                        <div className="flex justify-center lg:justify-start gap-2 text-xs text-white/40 pt-2">
                             <span className="border-b border-white/20 pb-0.5">English</span>
                             <span>|</span>
                             <span className="border-b border-white/20 pb-0.5">Bangla</span>
@@ -65,7 +65,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={isPageReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.5 }}
-                        className="flex flex-wrap gap-4 text-sm"
+                        className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm"
                     >
                         <Link
                             href="https://github.com/Asaduzzama-n"
