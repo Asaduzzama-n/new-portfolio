@@ -11,88 +11,84 @@ export default function Hero() {
     const { isPageReady } = useTransitionNavigate();
 
     return (
-        <section id="home" className="h-screen w-full flex items-stretch overflow-hidden">
-            <div className="w-full h-full grid grid-rows-[auto_auto] lg:grid-rows-1 lg:grid-cols-2">
-                {/* Left Side - Image */}
-                <div className="relative h-[40vh] lg:h-full w-full overflow-hidden">
-                    <motion.div
-                        initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
-                        animate={isPageReady ? { clipPath: 'inset(0% 0% 0% 0%)', scale: 1 } : { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
-                        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
-                        className="relative h-full w-full"
-                    >
-                        <Image
-                            src="/hero.png"
-                            alt="Asaduzzaman"
-                            fill
-                            className="object-cover grayscale"
-                            priority
-                        />
-                    </motion.div>
-                </div>
+        <section id="home" className="relative h-screen w-full flex items-center items-end overflow-hidden pb-24">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0 h-full w-full">
+                <motion.div
+                    initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
+                    animate={isPageReady ? { clipPath: 'inset(0% 0% 0% 0%)', scale: 1 } : { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
+                    transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
+                    className="relative h-full w-full"
+                >
+                    <Image
+                        src="/profile1.png"
+                        alt="Asaduzzaman"
+                        fill
+                        className="object-cover grayscale brightness-[0.9]"
+                        priority
+                    />
+                    {/* Optional Gradient Overlay for better text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
+                </motion.div>
+            </div>
 
-                {/* Right Side - Text Content */}
-                <div className="flex flex-col justify-start pt-4 lg:justify-center items-center lg:items-start text-center lg:text-left px-4 lg:px-16 lg:py-0 xl:px-24 space-y-2 lg:space-y-12 bg-background">
-                    {/* Large Vertical Name - Masked Reveal */}
-                    <div className="overflow-hidden w-full">
-                        <motion.h1
-                            initial={{ y: '100%' }}
-                            animate={isPageReady ? { y: '0%' } : { y: '100%' }}
-                            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
-                            className="text-[clamp(2rem,10vw,4rem)] lg:text-6xl xl:text-8xl font-bold leading-[0.85] tracking-tight font-custom-2 break-words"
-                        >
-                            ASADUZZAMAN
-                        </motion.h1>
-                    </div>
-
-                    {/* Name and Tagline - Staggered Entry */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isPageReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.4 }}
-                        className="space-y-2"
-                    >
-                        <RoleSwitcher />
-                        <div className="flex justify-center lg:justify-start gap-2 text-xs text-white/40 pt-2">
-                            <span className="border-b border-white/20 pb-0.5">English</span>
-                            <span>|</span>
-                            <span className="border-b border-white/20 pb-0.5">Bangla</span>
+            {/* Content Container */}
+            <div className="relative z-10 w-full px-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col items-start text-left space-y-4 lg:space-y-10 max-w-4xl">
+                        {/* Large Vertical Name - Masked Reveal */}
+                        <div className="overflow-hidden">
+                            <motion.h1
+                                initial={{ y: '100%' }}
+                                animate={isPageReady ? { y: '0%' } : { y: '100%' }}
+                                transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
+                                className="text-[clamp(2.5rem,10vw,5rem)] lg:text-7xl xl:text-9xl font-bold leading-none tracking-tighter font-custom-2"
+                            >
+                                ASADUZZAMAN
+                            </motion.h1>
                         </div>
-                    </motion.div>
 
-                    {/* Social Links - Staggered Entry */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isPageReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.5 }}
-                        className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm"
-                    >
-                        <Link
-                            href="https://github.com/Asaduzzama-n"
-                            target="_blank"
-                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
+                        {/* Role and Language */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isPageReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.4 }}
+                            className="space-y-4"
                         >
-                            GitHub
-                        </Link>
-                        <Link
-                            href="#"
-                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
+                            <div className="transform origin-left scale-125 lg:scale-150">
+                                <RoleSwitcher />
+                            </div>
+                            <div className="flex gap-4 text-xs text-white/40 pt-4">
+                                <span className="border-b border-white/20 pb-0.5">English</span>
+                                <span className="opacity-20">|</span>
+                                <span className="border-b border-white/20 pb-0.5">Bangla</span>
+                            </div>
+                        </motion.div>
+
+                        {/* Social Links */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isPageReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.5 }}
+                            className="flex flex-wrap gap-6 text-sm pt-4"
                         >
-                            LinkedIn
-                        </Link>
-                        <Link
-                            href="#"
-                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
-                        >
-                            Twitter
-                        </Link>
-                        <Link
-                            href="mailto:hello@asaduzzaman.com"
-                            className="text-white/60 hover:text-white transition-colors border-b border-white/20 pb-0.5"
-                        >
-                            hello@asaduzzaman.com
-                        </Link>
-                    </motion.div>
+                            {[
+                                { label: 'GitHub', href: 'https://github.com/Asaduzzama-n' },
+                                { label: 'LinkedIn', href: '#' },
+                                { label: 'Twitter', href: '#' },
+                                { label: 'Email', href: 'mailto:hello@asaduzzaman.com' }
+                            ].map((link) => (
+                                <Link
+                                    key={link.label}
+                                    href={link.href}
+                                    target={link.href.startsWith('http') ? "_blank" : undefined}
+                                    className="text-white/60 hover:text-white transition-all hover:-translate-y-0.5 border-b border-white/10 hover:border-white pb-1"
+                                >
+                                    {link.label === 'Email' ? 'hello@asaduzzaman.com' : link.label}
+                                </Link>
+                            ))}
+                        </motion.div>
+                    </div>
                 </div>
             </div>
 
